@@ -218,3 +218,7 @@ add_dependencies(listener repeatability_tests_generate_messages_cpp)
 add_executable(sync_HL_OT src/sync_HL_OT.cpp)
 target_link_libraries(sync_HL_OT ${catkin_LIBRARIES})
 add_dependencies(sync_HL_OT repeatability_tests_generate_messages_cpp)
+
+add_executable(sync_HTC_OT src/sync_HTC_OT.cpp)
+target_link_libraries(sync_HTC_OT ${catkin_LIBRARIES})
+add_dependencies(sync_HTC_OT repeatability_tests_generate_messages_cpp)
