@@ -13,12 +13,12 @@ using namespace geometry_msgs;
 
 std::ofstream myfile;
 
- void callback(const geometry_msgs::PoseStamped::ConstPtr& hololens, const geometry_msgs::PoseStamped::ConstPtr& opti)
+ void callback(const geometry_msgs::PoseStamped::ConstPtr& htcvive, const geometry_msgs::PoseStamped::ConstPtr& opti)
 {
     float error_x, error_y, error_z, error;
-    error_x = hololens->pose.position.x - opti->pose.position.x;
-    error_y = hololens->pose.position.y - opti->pose.position.y;
-    error_z = hololens->pose.position.z - opti->pose.position.z;
+    error_x = htcvive->pose.position.x - opti->pose.position.x;
+    error_y = htcvive->pose.position.y - opti->pose.position.y;
+    error_z = htcvive->pose.position.z + opti->pose.position.z;
     error = sqrt(pow(error_x,2) + pow(error_y,2) + pow(error_z,2));
 
     myfile << error_x << "," << error_y << "," << error_z << "," << error << "\n";
@@ -27,21 +27,20 @@ std::ofstream myfile;
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "sync_HL_OT");
+  ros::init(argc, argv, "sync_HTC_OT");
 
   ros::NodeHandle nh;
 
-  message_filters::Subscriber<PoseStamped> hololens_sub(nh, "HLposition", 1);
+  message_filters::Subscriber<PoseStamped> htcvive_sub(nh, "HTCposition", 1);
   message_filters::Subscriber<PoseStamped> optiTrack_sub(nh, "vrpn_client_node/IndexFinger/pose", 1);
 
   typedef sync_policies::ApproximateTime<PoseStamped, PoseStamped> MySyncPolicy;
 
-  
-  myfile.open("HL_OT_data");
-  myfile << "Tracking errors between HoloLen2 and OptiTrack\n";
+  myfile.open("HTC_OT_data");
+  myfile << "Tracking errors between HTC Vive and OptiTrack\n";
   myfile << "Error x, Error y, Error z, Error\n";
 
-  Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),hololens_sub, optiTrack_sub);
+  Synchronizer<MySyncPolicy> sync(MySyncPolicy(100),htcvive_sub, optiTrack_sub);
   sync.registerCallback(boost::bind(&callback, _1, _2));
 
   ros::spin();
