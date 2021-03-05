@@ -32,10 +32,12 @@ int main(int argc, char **argv)
   ros::NodeHandle nh_param("~");
   ros::NodeHandle nh;
 
+  std::string testNumber;
   std::string conditions;
-  std::string check;
-  nh_param.getParam("conditions",check);
-  ROS_INFO("Conditions : %s", check.c_str());
+  nh_param.getParam("testNumber", testNumber);
+  nh_param.getParam("conditions", conditions);
+  ROS_INFO("Test Number : %s", testNumber.c_str());
+  ROS_INFO("Conditions : %s", conditions.c_str());
 
   message_filters::Subscriber<PoseStamped> htcvive_sub(nh, "HTCposition", 1);
   message_filters::Subscriber<PoseStamped> optiTrack_sub(nh, "vrpn_client_node/IndexFinger/pose", 1);
@@ -45,12 +47,12 @@ int main(int argc, char **argv)
   std::string fileName;
   std::string nameDevice;
 
-  nameDevice = "HTC_OT_data_";
-  fileName = nameDevice + check.c_str();
+  nameDevice = "HTC_OT_data";
+  fileName = nameDevice + testNumber.c_str();
 
   myfile.open(fileName);
   myfile << "Tracking errors between HTC Vive and OptiTrack\n";
-  myfile << check.c_str() << "\n";
+  myfile << conditions.c_str() << "\n";
   myfile << "Error x, Error y, Error z, Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),htcvive_sub, optiTrack_sub);
