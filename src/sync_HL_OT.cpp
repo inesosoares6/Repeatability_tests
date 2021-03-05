@@ -29,16 +29,28 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "sync_HL_OT");
 
+  ros::NodeHandle nh_param("~");
   ros::NodeHandle nh;
+
+  std::string conditions;
+  std::string check;
+  nh_param.getParam("conditions",check);
+  ROS_INFO("Conditions : %s", check.c_str());
 
   message_filters::Subscriber<PoseStamped> hololens_sub(nh, "HLposition", 1);
   message_filters::Subscriber<PoseStamped> optiTrack_sub(nh, "vrpn_client_node/IndexFinger/pose", 1);
 
   typedef sync_policies::ApproximateTime<PoseStamped, PoseStamped> MySyncPolicy;
 
-  
-  myfile.open("HL_OT_data");
+  std::string fileName;
+  std::string nameDevice;
+
+  nameDevice = "HL_OT_data_";
+  fileName = nameDevice + check.c_str();
+
+  myfile.open(fileName);
   myfile << "Tracking errors between HoloLen2 and OptiTrack\n";
+  myfile << check.c_str() << "\n";
   myfile << "Error x, Error y, Error z, Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),hololens_sub, optiTrack_sub);
