@@ -39,9 +39,7 @@ int main(int argc, char **argv)
   std::string testNumber;
   std::string conditions;
   nh_param.getParam("testNumber", testNumber);
-  //nh_param.getParam("conditions", conditions);
   ROS_INFO("Test Number : %s", testNumber.c_str());
-  //ROS_INFO("Conditions : %s", conditions.c_str());
 
   message_filters::Subscriber<PoseStamped> hololens_sub(nh, "HLposition", 1);
   message_filters::Subscriber<PoseStamped> optiTrack_sub(nh, "vrpn_client_node/IndexFinger/pose", 1);
@@ -50,13 +48,9 @@ int main(int argc, char **argv)
 
   std::string fileName;
   std::string nameDevice;
-
   nameDevice = "HL_OT_data";
   fileName = nameDevice + testNumber.c_str();
-
   myfile.open(fileName);
-  //myfile << "Tracking errors between HoloLen2 and OptiTrack\n";
-  //myfile << conditions.c_str() << "\n";
   myfile << "Timestamp, Error x, Error y, Error z, Error, Quadratic Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),hololens_sub, optiTrack_sub);

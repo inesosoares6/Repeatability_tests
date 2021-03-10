@@ -39,9 +39,7 @@ int main(int argc, char **argv)
   std::string testNumber;
   std::string conditions;
   nh_param.getParam("testNumber", testNumber);
-  //nh_param.getParam("conditions", conditions);
   ROS_INFO("Test Number : %s", testNumber.c_str());
-  //ROS_INFO("Conditions : %s", conditions.c_str());
 
   message_filters::Subscriber<PoseStamped> htcvive_sub(nh, "HTCposition", 1);
   message_filters::Subscriber<PoseStamped> optiTrack_sub(nh, "vrpn_client_node/IndexFinger/pose", 1);
@@ -50,14 +48,10 @@ int main(int argc, char **argv)
 
   std::string fileName;
   std::string nameDevice;
-
   nameDevice = "HTC_OT_data";
   fileName = nameDevice + testNumber.c_str();
-
   myfile.open(fileName);
-  //myfile << "Tracking errors between HTC Vive and OptiTrack\n";
-  //myfile << conditions.c_str() << "\n";
-  myfile << "Error x, Error y, Error z, Error\n";
+  myfile << "Timestamp, Error x, Error y, Error z, Error, Quadratic Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),htcvive_sub, optiTrack_sub);
   sync.registerCallback(boost::bind(&callback, _1, _2));
