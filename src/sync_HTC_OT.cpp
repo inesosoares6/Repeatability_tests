@@ -15,14 +15,18 @@ std::ofstream myfile;
 
  void callback(const geometry_msgs::PoseStamped::ConstPtr& htcvive, const geometry_msgs::PoseStamped::ConstPtr& opti)
 {
-    float error_x, error_y, error_z, error;
+    float error_x, error_y, error_z, error, error_quad;
+    float dist_htcvive, dist_optiTrack;
     error_x = htcvive->pose.position.x - opti->pose.position.x;
     error_y = htcvive->pose.position.y - opti->pose.position.y;
-    error_z = htcvive->pose.position.z + opti->pose.position.z;
-    error = (pow(error_x,2) + pow(error_y,2) + pow(error_z,2));
+    error_z = htcvive->pose.position.z - opti->pose.position.z;
+    dist_htcvive = sqrt(pow(htcvive->pose.position.x,2)+pow(htcvive->pose.position.y,2)+pow(htcvive->pose.position.z,2));
+    dist_optiTrack = sqrt(pow(opti->pose.position.x,2)+pow(opti->pose.position.y,2)+pow(opti->pose.position.z,2));
+    error_quad = pow(dist_htcvive-dist_optiTrack,2);
+    error = dist_htcvive-dist_optiTrack;
 
-    myfile << error_x << "," << error_y << "," << error_z << "," << error << "\n";
-    ROS_INFO("\n\nError x: [%f] \nError y: [%f] \nError z: [%f]\n\nError: [%f]\n", error_x, error_y, error_z, error);
+    myfile << htcvive->header.stamp.sec << "." << htcvive->header.stamp.nsec << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
+    ROS_INFO("Error: [%f]", error_quad);
 }
 
 int main(int argc, char **argv)

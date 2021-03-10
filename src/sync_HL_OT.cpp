@@ -15,14 +15,18 @@ std::ofstream myfile;
 
  void callback(const geometry_msgs::PoseStamped::ConstPtr& hololens, const geometry_msgs::PoseStamped::ConstPtr& opti)
 {
-    float error_x, error_y, error_z, error;
+    float error_x, error_y, error_z, error, error_quad;
+    float dist_hololens, dist_optiTrack;
     error_x = hololens->pose.position.x - opti->pose.position.x;
     error_y = hololens->pose.position.y - opti->pose.position.y;
     error_z = hololens->pose.position.z - opti->pose.position.z;
-    error = (pow(error_x,2) + pow(error_y,2) + pow(error_z,2));
+    dist_hololens = sqrt(pow(hololens->pose.position.x,2)+pow(hololens->pose.position.y,2)+pow(hololens->pose.position.z,2));
+    dist_optiTrack = sqrt(pow(opti->pose.position.x,2)+pow(opti->pose.position.y,2)+pow(opti->pose.position.z,2));
+    error_quad = pow(dist_hololens-dist_optiTrack,2);
+    error = dist_hololens-dist_optiTrack;
 
-    myfile << error_x << "," << error_y << "," << error_z << "," << error << "\n";
-    ROS_INFO("\n\nError x: [%f] \nError y: [%f] \nError z: [%f]\n\nError: [%f]\n", error_x, error_y, error_z, error);
+    myfile << hololens->header.stamp.sec << "." << hololens->header.stamp.nsec << ","  << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
+    ROS_INFO("Error: [%f]", error_quad);
 }
 
 int main(int argc, char **argv)
@@ -53,7 +57,7 @@ int main(int argc, char **argv)
   myfile.open(fileName);
   //myfile << "Tracking errors between HoloLen2 and OptiTrack\n";
   //myfile << conditions.c_str() << "\n";
-  myfile << "Error x, Error y, Error z, Error\n";
+  myfile << "Timestamp, Error x, Error y, Error z, Error, Quadratic Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),hololens_sub, optiTrack_sub);
   sync.registerCallback(boost::bind(&callback, _1, _2));
