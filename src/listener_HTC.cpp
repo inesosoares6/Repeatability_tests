@@ -13,13 +13,13 @@ using namespace geometry_msgs;
 
  void callback(const geometry_msgs::PoseStamped::ConstPtr& htcvive, const geometry_msgs::PoseStamped::ConstPtr& opti)
 {
-    float error_x, error_y, error_z, error, error_quad;
+    float error_x, error_y, error_z, error;
     error_x = htcvive->pose.position.x - opti->pose.position.x;
     error_y = htcvive->pose.position.y - opti->pose.position.y;
     error_z = htcvive->pose.position.z - opti->pose.position.z;
     error = sqrt(pow(error_x,2)+pow(error_y,2)+pow(error_z,2))*100;
 
-    ROS_INFO("Error: [%f]", error);
+    ROS_INFO("Error: [%f] cm", error);
 }
 
 int main(int argc, char **argv)
