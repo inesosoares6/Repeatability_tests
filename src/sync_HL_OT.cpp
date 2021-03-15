@@ -22,7 +22,9 @@ std::ofstream myfile;
     error_quad = pow(error_x,2) + pow(error_y,2) + pow(error_z,2);
     error = sqrt(error_quad);
 
-    myfile << hololens->header.stamp.sec << "." << hololens->header.stamp.nsec << ","  << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
+    myfile << hololens->header.stamp.sec << "." << hololens->header.stamp.nsec << ","  
+      << hololens->pose.position.x << "," << hololens->pose.position.y << "," << hololens->pose.position.z << "," 
+      << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
     ROS_INFO("Error: [%f]", error);
 }
 
@@ -48,7 +50,7 @@ int main(int argc, char **argv)
   nameDevice = "HL_OT_data";
   fileName = nameDevice + testNumber.c_str();
   myfile.open(fileName);
-  myfile << "Timestamp, Error x, Error y, Error z, Error, Quadratic Error\n";
+  myfile << "Timestamp, HL_x, HL_y, HL_z, Error x, Error y, Error z, Error, Quadratic Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),hololens_sub, optiTrack_sub);
   sync.registerCallback(boost::bind(&callback, _1, _2));

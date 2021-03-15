@@ -22,7 +22,9 @@ std::ofstream myfile;
     error_quad = pow(error_x,2) + pow(error_y,2) + pow(error_z,2);
     error = sqrt(error_quad);
 
-    myfile << htcvive->header.stamp.sec << "." << htcvive->header.stamp.nsec << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
+    myfile << htcvive->header.stamp.sec << "." << htcvive->header.stamp.nsec << ","  
+      << htcvive->pose.position.x << "," << htcvive->pose.position.y << "," << htcvive->pose.position.z << "," 
+      << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
     ROS_INFO("Error: [%f]", error);
 }
 
@@ -48,7 +50,7 @@ int main(int argc, char **argv)
   nameDevice = "HTC_OT_data";
   fileName = nameDevice + testNumber.c_str();
   myfile.open(fileName);
-  myfile << "Timestamp, Error x, Error y, Error z, Error, Quadratic Error\n";
+  myfile << "Timestamp, HTC_x, HTC_y, HTC_z, Error x, Error y, Error z, Error, Quadratic Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),htcvive_sub, optiTrack_sub);
   sync.registerCallback(boost::bind(&callback, _1, _2));
