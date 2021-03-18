@@ -11,7 +11,7 @@ std::ofstream myfile;
 
 void hololensCallback(const geometry_msgs::PoseStamped::ConstPtr& hololens)
 {
-    ROS_INFO("Timestamp: [%f].[%f]", hololens->header.stamp.sec, hololens->header.stamp.nsec);
+    ROS_INFO("Recording");
     myfile << hololens->header.stamp.sec << "," << hololens->header.stamp.nsec << ","  
       << hololens->pose.position.x << "," << hololens->pose.position.y << "," << hololens->pose.position.z << "\n";
 }

@@ -15,16 +15,15 @@ std::ofstream myfile;
 
  void callback(const geometry_msgs::PoseStamped::ConstPtr& htcvive, const geometry_msgs::PoseStamped::ConstPtr& opti)
 {
-    float error_x, error_y, error_z, error, error_quad;
+    float error_x, error_y, error_z, error;
     error_x = htcvive->pose.position.x - opti->pose.position.x;
     error_y = htcvive->pose.position.y - opti->pose.position.y;
     error_z = htcvive->pose.position.z - opti->pose.position.z;
-    error_quad = pow(error_x,2) + pow(error_y,2) + pow(error_z,2);
-    error = sqrt(error_quad);
+    error = sqrt(pow(error_x,2) + pow(error_y,2) + pow(error_z,2));
 
-    myfile << htcvive->header.stamp.sec << "." << htcvive->header.stamp.nsec << ","  
+    myfile << htcvive->header.stamp.sec << "," << htcvive->header.stamp.nsec << ","  
       << htcvive->pose.position.x << "," << htcvive->pose.position.y << "," << htcvive->pose.position.z << "," 
-      << error_x << "," << error_y << "," << error_z << "," << error << "," << error_quad << "\n";
+      << opti->pose.position.x << "," << opti->pose.position.y << "," << opti->pose.position.z << "," << error << "\n";
     ROS_INFO("Error: [%f]", error);
 }
 
@@ -50,7 +49,7 @@ int main(int argc, char **argv)
   nameDevice = "HTC_OT_data";
   fileName = nameDevice + testNumber.c_str();
   myfile.open(fileName);
-  myfile << "Timestamp, HTC_x, HTC_y, HTC_z, Error x, Error y, Error z, Error, Quadratic Error\n";
+  myfile << "sec, nsec, HTC_x, HTC_y, HTC_z, OT_x, OT_y, OT_z, Error\n";
 
   Synchronizer<MySyncPolicy> sync(MySyncPolicy(1000),htcvive_sub, optiTrack_sub);
   sync.registerCallback(boost::bind(&callback, _1, _2));
