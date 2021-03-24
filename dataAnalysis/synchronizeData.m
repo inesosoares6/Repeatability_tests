@@ -6,109 +6,63 @@
 % Author: Inês Soares (ines.o.soares@inesctec.pt)
 
 % insert test number
-test_number = 17;
+test_number = 19;
 
 if test_number == 17
     read_file = 'matlab_17.csv';
-    max_HL = 4988;
     write_file = 'interpolated_17.csv';
 elseif test_number == 18
     read_file = 'matlab_18.csv';
-    max_HL = 4923;
     write_file = 'interpolated_18.csv';
 elseif test_number ==19
     read_file = 'matlab_19.csv';
-    max_HL = 4590;
     write_file = 'interpolated_19.csv';
 else
     error("Insert valid test number")
 end
 
 % read and save data to arrays
-data = readtable(read_file);
-data_matrix = table2array(data);
-time_HL = data_matrix(1:max_HL,1);
-position_HL = data_matrix(1:max_HL,2);
-time_OT = data_matrix(:,3);
-position_OT = data_matrix(:,4);
-
-% plot graphs with HL2 & OT data
-figure(1);
-subplot(3,2,1);
-plot(time_HL,position_HL,'b')
-title('HoloLens2')
-xlabel('time (sec)')
-ylabel('z position (m)')
-
-subplot(3,2,2);
-plot(time_OT,position_OT,'g')
-title('OptiTrack')
-xlabel('time (sec)')
-ylabel('z position (m)')
-
-subplot(3,2,[3,4]);
-plot(time_HL,position_HL,'b',time_OT,position_OT,'g');
-legend('HL2','OT')
-title('HoloLens2 & OptiTrack')
-xlabel('time (sec)')
-ylabel('z position (m)')
+[time_HL,HL_x,HL_y,HL_z,time_OT,OT_x,OT_y,OT_z] = readData(read_file);
 
 % calculate interpolation
-D_BA = zeros(size(position_OT));
-T_BA = zeros(size(time_OT));
-for i = 1:size(position_OT,1)
-    for j = 1:size(position_HL,1)
-        if time_HL(j) > time_OT(i)
-            if j==1
-                j0 = 1;
-                jf = 2;
-            else
-                j0 = j-1;
-                jf = j;
-            end
-            D_BA(i) = position_HL(j0)+(position_HL(jf)-position_HL(j0))/(time_HL(jf)-time_HL(j0))*(time_OT(i)-time_HL(j0));
-            T_BA(i) = time_OT(i);
-            break;
-        elseif time_HL(j) == time_OT(i)
-            D_BA(i) = position_HL(j);
-            T_BA(i) = time_OT(i);
-            break;
-        end
-    end
-end
+[T_BA_x, D_BA_x] = interpolate(time_OT,OT_x,time_HL,HL_x);
+[T_BA_y, D_BA_y] = interpolate(time_OT,OT_y,time_HL,HL_y);
+[T_BA_z, D_BA_z] = interpolate(time_OT,OT_z,time_HL,HL_z);
 
-% plot graph interpolated
-subplot(3,2,[5,6]);
-plot(T_BA,D_BA,'b',time_OT,position_OT,'g');
-legend('HL2interpolated','OT')
-title('Interpolation')
-xlabel('time (sec)')
-ylabel('z position (m)')
+% plot graphs
+[debug1] = plotGraphs(time_OT,OT_z,time_HL,HL_z,T_BA_z,D_BA_z);
 
 % save to csv
-matrix=[T_BA D_BA position_OT];
-csvwrite(write_file,matrix);
+[debug2] = save2csv(write_file,time_OT,D_BA_x,D_BA_y,D_BA_z,OT_x,OT_y,OT_z);
 
-error_0 = position_OT - D_BA;
-error_5 = position_OT(1:size(D_BA,1)-4) - D_BA(5:size(D_BA,1));
-error_10 = position_OT(1:size(D_BA,1)-9) - D_BA(10:size(D_BA,1));
-error_15 = position_OT(1:size(D_BA,1)-14) - D_BA(15:size(D_BA,1));
-error_20 = position_OT(1:size(D_BA,1)-19) - D_BA(20:size(D_BA,1));
-error_25 = position_OT(1:size(D_BA,1)-24) - D_BA(25:size(D_BA,1));
-error_30 = position_OT(1:size(D_BA,1)-29) - D_BA(30:size(D_BA,1));
-error_35 = position_OT(1:size(D_BA,1)-34) - D_BA(35:size(D_BA,1));
-error_40 = position_OT(1:size(D_BA,1)-39) - D_BA(40:size(D_BA,1));
-error_45 = position_OT(1:size(D_BA,1)-44) - D_BA(45:size(D_BA,1));
-error_50 = position_OT(1:size(D_BA,1)-49) - D_BA(50:size(D_BA,1));
+error("Select the appropriate delay and comment this line.");
 
-figure(2);
-plot(T_BA(1:size(D_BA,1)-29),position_OT(1:size(D_BA,1)-29),'r',...
-     T_BA(1:size(D_BA,1)-39),D_BA(40:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-34),D_BA(35:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-29),D_BA(30:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-24),D_BA(25:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-19),D_BA(20:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-14),D_BA(15:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-9),D_BA(10:size(D_BA,1)),...
-     T_BA(1:size(D_BA,1)-4),D_BA(5:size(D_BA,1)));
-legend('OT','HL-40','HL-35','HL-30','HL-25','HL-20','HL-15','HL-10','HL-5');
+% select the appropriate delay
+selected_delay = 5;
+N = size(time_OT,1);
+
+% calculate the errors
+error_mean_x = mean(OT_x(1:N-selected_delay+1) - D_BA_x(selected_delay:N));
+error_mean_y = mean(OT_y(1:N-selected_delay+1) - D_BA_y(selected_delay:N));
+error_mean_z = mean(OT_z(1:N-selected_delay+1) - D_BA_z(selected_delay:N));
+accuracy = sqrt(error_mean_x^2 + error_mean_y^2 + error_mean_z^2);
+delay = mean(time_OT(selected_delay:N)-time_OT(1:N-selected_delay+1));
+result = sprintf('Test number: %d\nAccuracy: %f \nDelay: %f',test_number,accuracy,delay);
+disp(result);
+
+% display final results
+figure();
+subplot(2,1,1);
+plot(T_BA_x,OT_z,'r',...
+     T_BA_x,D_BA_z);
+legend('OT','HL_{modified}');
+title('Initial result');
+xlabel('time (sec)');
+ylabel('z position (m)');
+subplot(2,1,2);
+plot(T_BA_x(1:N-selected_delay+1),OT_z(1:N-selected_delay+1),'r',...
+     T_BA_x(1:N-selected_delay+1),D_BA_z(selected_delay:N));
+ legend('OT','HL_{modified}');
+ title('Final result');
+ xlabel('time (sec)');
+ ylabel('z position (m)');
