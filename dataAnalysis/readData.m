@@ -1,25 +1,30 @@
-function [time,position_H_x,position_H_y,position_H_z,position_OT_x,position_OT_y,position_OT_z,Error] = readData(test_date,test_number,test_type)
+function [time,pos_H_x,pos_H_y,pos_H_z,pos_OT_x,pos_OT_y,pos_OT_z,Error] = readData(test_date,test_number,test_type)
     
     path = 'C:\Users\ineso\Documents\Repos\repeatability_tests\csvFiles\';
 
-    if test_type == 1
+    if strcmp(test_type,'HL')
         read_file = strcat('tests_',test_date,'032021\HL_OT_data_',test_number);
-    elseif test_type == 2
+    elseif strcmp(test_type,'HTC')
         read_file = strcat('tests_',test_date,'032021\HTC_OT_data_',test_number);
     else
-        error("Give a right input device: HL=1 and HTC=2");
+        error("Give a right input device: HL or HTC");
     end
 
     data = readtable(strcat(path,read_file));
     data_matrix = table2array(data);
-    timestamp = data_matrix(:,1)+data_matrix(:,2)*10^-9;
+    
+    start = 400;
+    finish = 400;
+    N = size(data_matrix,1);
+    
+    timestamp = data_matrix(start:N-finish,1)+data_matrix(start:N-finish,2)*10^-9;
     time = timestamp - timestamp(1);
-    position_H_x = data_matrix(:,3);
-    position_H_y = data_matrix(:,4);
-    position_H_z = data_matrix(:,5);
-    position_OT_x = data_matrix(:,6);
-    position_OT_y = data_matrix(:,7);
-    position_OT_z = data_matrix(:,8);
-    Error = data_matrix(:,9);
+    pos_H_x = data_matrix(start:N-finish,3);
+    pos_H_y = data_matrix(start:N-finish,4);
+    pos_H_z = data_matrix(start:N-finish,5);
+    pos_OT_x = data_matrix(start:N-finish,6);
+    pos_OT_y = data_matrix(start:N-finish,7);
+    pos_OT_z = data_matrix(start:N-finish,8);
+    Error = data_matrix(start:N-finish,9);
 end
 

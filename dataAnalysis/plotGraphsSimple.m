@@ -1,25 +1,25 @@
-function plotGraphsSimple(timestamp,HL_x,HL_y,HL_z,OT_x,OT_y,OT_z,Error)
+function plotGraphsSimple(timestamp,H_x,H_y,H_z,OT_x,OT_y,OT_z,Error)
         figure(1);
         subplot(2,2,1);
-        plot(timestamp,HL_x,'b',...
+        plot(timestamp,H_x,'b',...
              timestamp,OT_x,'r');
-        legend('HL2','OT');
+        legend('H','OT');
         title('Axis x');
         xlabel('time (sec)');
         ylabel('position (m)');
 
         subplot(2,2,2);
-        plot(timestamp,HL_y,'b',...
+        plot(timestamp,H_y,'b',...
              timestamp,OT_y,'r');
-        legend('HL2','OT');
+        legend('H','OT');
         title('Axis y');
         xlabel('time (sec)');
         ylabel('position (m)');
 
         subplot(2,2,3);
-        plot(timestamp,HL_z,'b',...
+        plot(timestamp,H_z,'b',...
              timestamp,OT_z,'r');
-        legend('HL2','OT');
+        legend('H','OT');
         title('Axis z');
         xlabel('time (sec)');
         ylabel('position (m)');
@@ -29,5 +29,6 @@ function plotGraphsSimple(timestamp,HL_x,HL_y,HL_z,OT_x,OT_y,OT_z,Error)
         title('Error');
         xlabel('time (sec)');
         ylabel('position (m)');
+        
 end
 

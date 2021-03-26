@@ -1,62 +1,66 @@
-function plotGraphs(opt,time_OT,position_OT,time_HL,position_HL,T_BA,D_BA,cell_delay,MaxIdx_OT,MinIdx_OT,MaxIdx_HL,MinIdx_HL)
+function plotGraphs(opt,time_OT,pos_OT,time_H,pos_H,T_BA,D_BA,cell_delay,MaxIdx_OT,MinIdx_OT,MaxIdx_H,MinIdx_H)
     N = size(time_OT,1);
     if(opt==1)
         figure(1);
+        
         subplot(3,2,1);
-        plot(time_HL,position_HL,'b');
-        title('HoloLens2');
+        plot(time_H,pos_H,'b');
+        title('HoloLens2 / HTC Vive');
         xlabel('time (sec)');
-        ylabel('z position (m)');
+        ylabel('position (m)');
 
         subplot(3,2,2);
-        plot(time_OT,position_OT,'g');
+        plot(time_OT,pos_OT,'g');
         title('OptiTrack');
         xlabel('time (sec)');
-        ylabel('z position (m)');
+        ylabel('position (m)');
 
         subplot(3,2,[3,4]);
-        plot(time_HL,position_HL,'b',time_OT,position_OT,'g');
-        legend('HL2','OT');
-        title('HoloLens2 & OptiTrack');
+        plot(time_H,pos_H,'b',time_OT,pos_OT,'g');
+        legend('H','OT');
+        title('Position');
         xlabel('time (sec)');
-        ylabel('z position (m)');
+        ylabel('position (m)');
 
         subplot(3,2,[5,6]);
-        plot(T_BA,D_BA,'b',time_OT,position_OT,'g');
-        legend('HL2interpolated','OT');
+        plot(T_BA,D_BA,'b',time_OT,pos_OT,'g');
+        legend('Hinterpolated','OT');
         title('Interpolation');
         xlabel('time (sec)');
-        ylabel('z position (m)');
+        ylabel('position (m)');
     
    elseif(opt==2)
         figure(2);
-        plot(time_OT,position_OT,'r',...
-             time_OT(MaxIdx_OT),position_OT(MaxIdx_OT),'r*',...
-             time_OT(MinIdx_OT),position_OT(MinIdx_OT),'r*',...
+        
+        plot(time_OT,pos_OT,'r',...
+             time_OT(MaxIdx_OT),pos_OT(MaxIdx_OT),'r*',...
+             time_OT(MinIdx_OT),pos_OT(MinIdx_OT),'r*',...
              T_BA,D_BA,'b',...
-             T_BA(MaxIdx_HL),D_BA(MaxIdx_HL),'b*',...
-             T_BA(MinIdx_HL),D_BA(MinIdx_HL),'b*');
+             T_BA(MaxIdx_H),D_BA(MaxIdx_H),'b*',...
+             T_BA(MinIdx_H),D_BA(MinIdx_H),'b*');
         title('Find maxs & mins');
         xlabel('time (sec)');
-        ylabel('z position (m)');
-        legend('OT','OT_{max}','OT_{min}','HL','HL_{max}','HL_{min}');
-       
+        ylabel('position (m)');
+        legend('OT','OT_{max}','OT_{min}','H','H_{max}','H_{min}');
+        
+    elseif(opt==3)
         figure(3);
+        
         subplot(2,1,1);
-        plot(time_OT,position_OT,'r',...
+        plot(time_OT,pos_OT,'r',...
              T_BA,D_BA,'b');
-        legend('OT','HL');
+        legend('OT','H');
         title('Initial result');
         xlabel('time (sec)');
-        ylabel('z position (m)');
+        ylabel('position (m)');
 
         subplot(2,1,2);
-        plot(time_OT(1:N-cell_delay),position_OT(1:N-cell_delay),'r',...
+        plot(time_OT(1:N-cell_delay),pos_OT(1:N-cell_delay),'r',...
              T_BA(1:N-cell_delay),D_BA(cell_delay+1:N),'b');
-        legend('OT','HL_{modified}');
+        legend('OT','H_{modified}');
         title('Final result');
         xlabel('time (sec)');
-        ylabel('z position (m)');
+        ylabel('position (m)');
     else
         error('Select a correct option to plot graphs');
     end
