@@ -45,3 +45,5 @@ plotGraphsSimple(timestamp,H_x,H_y,H_z,OT_x,OT_y,OT_z,Error);
 suptitle(graph_title);
 result = sprintf('\nTest date: %s.03.2021 \nTest number: %s\nAccuracy: %f cm \nRepeatability: %f cm \nAccuracy after calibration: %f cm \n',test_date,test_number,accuracy*100,repeatability*100,accuracy_cal*100);
 disp(result);
+errors = sprintf('Offset x: %f \nOffset y: %f \nOffset z: %f\n',error_mean_x,error_mean_y,error_mean_z);
+disp(errors);
