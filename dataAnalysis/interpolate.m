@@ -1,3 +1,12 @@
+%-------------- Synchronize and Interpolate Data ---------------------
+%
+% Operador 4.0 -> Accuracy and Repeatability tests
+%   - data acquired by: HTCvive & OptiTrack
+%
+% Author: Inês Soares (ines.o.soares@inesctec.pt)
+% 
+% ----- Function to interpolate HL2/HTC data to match OptiTrack ------
+
 function [T_BA, D_BA] = interpolate(time_OT,position_OT,time_HL,position_HL)
     D_BA = zeros(size(position_OT));
     T_BA = zeros(size(time_OT));

@@ -1,3 +1,13 @@
+%-------------- Synchronize and Interpolate Data ---------------------
+%
+% Operador 4.0 -> Accuracy and Repeatability tests
+%   - data acquired by: HTCvive & OptiTrack
+%
+% Author: Inês Soares (ines.o.soares@inesctec.pt)
+% 
+% ----- Function to read the csv files and save it to arrays ---------
+%                     for the speed tests
+
 function [time_H,pos_H_x,pos_H_y,pos_H_z,time_OT,pos_OT_x,pos_OT_y,pos_OT_z] = joinReadData(test_date,test_number,test_type)
     
     path = 'C:\Users\ineso\Documents\Repos\repeatability_tests\csvFiles\';

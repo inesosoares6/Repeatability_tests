@@ -1,7 +1,7 @@
 %-------------- Synchronize and Interpolate Data ---------------------
 %
 % Operador 4.0 -> Accuracy and Repeatability tests
-%   - data acquired by: HoloLens2/HTCvive & OptiTrack
+%   - data acquired by: HoloLens2 & OptiTrack
 %
 % Author: Inês Soares (ines.o.soares@inesctec.pt)
 % 

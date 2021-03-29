@@ -1,3 +1,12 @@
+%-------------- Synchronize and Interpolate Data ---------------------
+%
+% Operador 4.0 -> Accuracy and Repeatability tests
+%   - data acquired by: HTCvive & OptiTrack
+%
+% Author: Inês Soares (ines.o.soares@inesctec.pt)
+% 
+% ----- Function to calculate the average speed in speed tests -------
+
 function [velocity] = calculateVelocity(T_BA,D_BA,MaxIdx_H,MinIdx_H)
     samples = (size(MaxIdx_H,1)+size(MinIdx_H,1))-1;
     velocity=zeros(samples,1);

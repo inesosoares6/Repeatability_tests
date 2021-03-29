@@ -1,3 +1,12 @@
+%-------------- Synchronize and Interpolate Data ---------------------
+%
+% Operador 4.0 -> Accuracy and Repeatability tests
+%   - data acquired by: HTCvive & OptiTrack
+%
+% Author: Inês Soares (ines.o.soares@inesctec.pt)
+% 
+% -------- Function to calculate the delay in speed tests -----------
+
 function [MaxIdx_OT,MinIdx_OT,MaxIdx_H,MinIdx_H,delay] = calculateDelay(time_OT,pos_OT,T_BA,D_BA)
 
     % find maxs and mins
@@ -32,7 +41,9 @@ function [MaxIdx_OT,MinIdx_OT,MaxIdx_H,MinIdx_H,delay] = calculateDelay(time_OT,
             MinIdx_OT(size(MinIdx_OT,1))=[];
         elseif error_min_last<-50
             MinIdx_H(size(MinIdx_H,1))=[];
-        end   
+        end
+    % if they have the same size, eliminate points that do not correspond
+    % findpeaks can sometimes find peaks in different edges for each signal
     else
         error_max_vec=MaxIdx_OT-MaxIdx_H;
         for i=1:size(MaxIdx_OT,1)
@@ -49,6 +60,7 @@ function [MaxIdx_OT,MinIdx_OT,MaxIdx_H,MinIdx_H,delay] = calculateDelay(time_OT,
             end
         end
     end
+    
     %calculate delay
     delay = (mean(T_BA(MinIdx_H)-time_OT(MinIdx_OT))+mean(T_BA(MaxIdx_H)-time_OT(MaxIdx_OT)))/2;
 end

@@ -1,3 +1,12 @@
+%-------------- Synchronize and Interpolate Data ---------------------
+%
+% Operador 4.0 -> Accuracy and Repeatability tests
+%   - data acquired by: HTCvive & OptiTrack
+%
+% Author: Inês Soares (ines.o.soares@inesctec.pt)
+% 
+% ---------- Function to plot the graphs for speed tests -------------
+
 function plotGraphs(opt,time_OT,pos_OT,time_H,pos_H,T_BA,D_BA,cell_delay,MaxIdx_OT,MinIdx_OT,MaxIdx_H,MinIdx_H)
     N = size(time_OT,1);
     if(opt==1)

@@ -12,8 +12,8 @@ close all;
 
 % insert test number
 test_date = '17'; % 09 | 11 | 16 | 17
-test_number = '6_1'; % 4 | 4_1 | 5 | 5_1 | 6 | 6_1 | 17 | 18 | 19 | 21_1 | 21_2 | 21_3 | 21_4 | 21_5 | 23
-test_type = 'HTC'; % HL | HTC
+test_number = '17'; % 4 | 4_1 | 5 | 5_1 | 6 | 6_1 | 17 | 18 | 19 | 21_1 | 21_2 | 21_3 | 21_4 | 21_5 | 23
+test_type = 'HL'; % HL | HTC
 
 % read and save data to arrays
 [time_H,H_x,H_y,H_z,time_OT,OT_x,OT_y,OT_z] = joinReadData(test_date,test_number,test_type);

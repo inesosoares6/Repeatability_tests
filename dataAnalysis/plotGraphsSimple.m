@@ -1,3 +1,12 @@
+%-------------- Synchronize and Interpolate Data ---------------------
+%
+% Operador 4.0 -> Accuracy and Repeatability tests
+%   - data acquired by: HTCvive & OptiTrack
+%
+% Author: Inês Soares (ines.o.soares@inesctec.pt)
+% 
+% ------ Function to plot the graphs for same position tests ---------
+
 function plotGraphsSimple(timestamp,H_x,H_y,H_z,OT_x,OT_y,OT_z,Error)
         figure(1);
         subplot(2,2,1);

@@ -1,14 +1,14 @@
 %-------------- Synchronize and Interpolate Data ---------------------
 %
 % Operador 4.0 -> Accuracy and Repeatability tests
-%   - data acquired by: HoloLens2/HTCvive & OptiTrack
+%   - data acquired by: HTCvive & OptiTrack
 %
 % Author: Inês Soares (ines.o.soares@inesctec.pt)
 % 
 % -------------- ROTATE HTC CONTROLLER TESTS ---------------------
 
 clear all;
-%close all;
+close all;
 
 % insert test number
 test_date = '17'; % 17
