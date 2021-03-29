@@ -12,12 +12,12 @@ close all;
 
 % insert test number
 test_date = '17'; % 09 | 11 | 16 | 17
-test_number = '2b_1'; % 1 | 1_1 | 2a | 2b | 2b_1 | 10 | 11 | 12 | 13 | 14 | 15 | 20_1 | 20_2 | 20_3 | 20_4 | 20_5 | 22
-test_type = 'HTC'; % HL | HTC
+test_number = '10'; % 1 | 1_1 | 2a | 2b | 2b_1 | 10 | 11 | 12 | 13 | 14 | 15 | 20_1 | 20_2 | 20_3 | 20_4 | 20_5 | 22
+test_type = 'HL'; % HL | HTC
 
 % read and save data to arrays
 [timestamp,H_x,H_y,H_z,OT_x,OT_y,OT_z,Error] = readData(test_date,test_number,test_type);
-%HL_y=-HL_y;
+
 % calculate accuracy
 error_mean_x = mean(H_x - OT_x);
 error_mean_y = mean(H_y - OT_y);
