@@ -14,15 +14,19 @@
 - Read topic info
 
     *rostopic echo /HLposition*
+    
     *rostopic echo /HTCposition*
+    
     *rostopic echo /vrpn_client_node/IndexFinger/pose*
 
 - Record bags
 
     *rosbag record -O <file_name> /HLposition /vrpn_client_node/IndexFinger/pose*
+    
     *rosbag record -O <file_name> /HTCposition /vrpn_client_node/IndexFinger/pose*
 
 - Run scripts
 
     *rosrun repeatability_tests sync_HL_OT _testNumber:=_#*
+    
     *rosrun repeatability_tests sync_HTC_OT _testNumber:=_#*
