@@ -41,7 +41,7 @@
 - *readData* -> function to read the csv files and save it to arrays
 - *save2csv* -> function to save the interpolated & synchronized data to a csv file
 
-## ROS Scripts Purposes
+## ROS Scripts purposes
 - *sync_HL_OT* -> synchronizes the data between HoloLens 2 and OptiTrack, prints it to a file and shows the error in the terminal
 - *sync_HTC_OT* -> synchronizes the data between HTC Vive and OptiTrack, prints it to a file and shows the error in the terminal
 - *record_HL* -> records the HoloLens 2 data (timestamp and position) to a csv file
