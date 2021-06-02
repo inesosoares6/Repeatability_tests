@@ -26,3 +26,8 @@
 
       rosrun repeatability_tests sync_HL_OT _testNumber:=_#
       rosrun repeatability_tests sync_HTC_OT _testNumber:=_#
+
+## Author
+Inês de Oliveira Soares (ines.o.soares@inesctec.pt | up201606615@up.pt)
+- Master Student - Electrical and Computer Engineering @ FEUP
+- Master Thesis Development @ INESC TEC
