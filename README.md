@@ -27,6 +27,20 @@
       rosrun repeatability_tests sync_HL_OT _testNumber:=_#
       rosrun repeatability_tests sync_HTC_OT _testNumber:=_#
 
+## Data analysis - MATLAB
+- *SamePositionTests* -> script to analyse the tests without motion
+- *VelocityTests* -> script to analyse the tests with motion
+- *RotateControllerTest* -> script to analyse the Test #3 where the HTC vive controller rotated 360º
+- *FrequencyAnalysis* -> scripts to analyse the sample frequency
+- *calculateDelay* -> function to calculate the delay in the motion tests
+- *calculateVelocity* -> function to calculate the velocity
+- *interpolate* -> function to interpolate points and resulting in vecotrs with the same size
+- *joinReadData* -> function to read the csv files and save it to arrays for motion tests
+- *plotGraphs* -> function to plot the graphs for motion tests
+- *plotGraphsSimple* -> function to plot the graphs for the tests without motion
+- *readData* -> function to read the csv files and save it to arrays
+- *save2csv* -> function to save the interpolated & synchronized data to a csv file
+
 ## Author
 Inês de Oliveira Soares (ines.o.soares@inesctec.pt | up201606615@up.pt)
 - Master Student - Electrical and Computer Engineering @ FEUP
